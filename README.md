@@ -7,9 +7,11 @@ This is about setting up a connection to the iSeries using ODBC. The steps that 
   brew install unixodbc
 
 ### Windows
-
+none
 
 ### Linux
+sudo apt-get install unixodbc unixodbc-dev
+
 
 
 ## Installation
@@ -17,12 +19,12 @@ This is about setting up a connection to the iSeries using ODBC. The steps that 
 2. npm install
 3. create a .env file then put the following in the file
 ```
-USERNAME=[your username]
-PASSWORD=[your password]
-SYSTEM=[your IBMi Server]
-DATABASE=[your database name]
+DB_USERNAME=[your username]
+DB_PASSWORD=[your password]
+DB_SYSTEM=[your IBMi Server]
+DB_DATABASE=[your database name]
 ```
-4. Now edit index.js and set the values of the system, database to your system and database name.
+4. Update the query in the index.js
 5. Run `node index.js`
 
 _NOTE:_ Do **NOT** change the driver.
