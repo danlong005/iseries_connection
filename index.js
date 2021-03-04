@@ -7,37 +7,32 @@ const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
 const database = process.env.DATABASE;
 
-let dataPromise = new Promise((resolve,reject) => {
-  const cn = 
-  `DRIVER=${driver};SYSTEM=${system};UID=${username};PWD=${password};DATABASE=${database}`;
 
-  odbc.connect(cn, (error, connection) => {
-    if (error) {
-      reject(error);
-    } else {
-      connection.query(
-        `SELECT * FROM test.test LIMIT 1`,
-        (error, result) => {
-          if (error) {
-            reject(error);
-          } else {
-            /* GETTING RID OF JUNK FROM THE RESPONSE */
-            delete result.statement;
-            delete result.parameters;
-            delete result.return;
-            delete result.count;
-            delete result.columns;
+const cn = 
+`DRIVER=${driver};SYSTEM=${system};UID=${username};PWD=${password};DATABASE=${database}`;
 
-            resolve(result);
-          }
-        }
-      );
-    }
-  });
-});
+async function getData() {
+  try {
+    let conn = await odbc.connect(cn);
+    let result = await conn.query(`SELECT * FROM prepaid.bilfilep 
+      WHERE pppol in (8831,
+        8834,
+        8819,
+        8805,
+        8816,
+        70026094469
+        )`);
+    delete result.statement;
+    delete result.parameters;
+    delete result.return;
+    delete result.count;
+    delete result.columns;
+    
+    console.log(result);
 
-dataPromise.then((data) => {
-  console.log(data);
-}).catch((error) => {
-  console.log(error);
-});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+getData();
